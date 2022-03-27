@@ -8,6 +8,11 @@ package ad_api
 //	"net/http"
 //)
 //
+
+func Test() {
+
+}
+
 //func (c *Credential) GetGrantUrl() (string, error) {
 //	hostUrl := c.getHostUrl()
 //	fmt.Println("aaa")
