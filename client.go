@@ -31,6 +31,31 @@ type Request struct {
 	Body    map[string]interface{}
 }
 
+type RequestOption func(*Request)
+
+func WithQueries(queries map[string]string) RequestOption {
+	return func(request *Request) {
+		request.Queries = queries
+	}
+}
+
+func WithBody(body map[string]interface{}) RequestOption {
+	return func(request *Request) {
+		request.Body = body
+	}
+}
+
+func NewRequest(options ...RequestOption) *Request {
+	request := &Request{
+		Queries: nil,
+		Body:    nil,
+	}
+	for _, o := range options {
+		o(request)
+	}
+	return request
+}
+
 func (c *Client) getEndpoint() (string, error) {
 	endpoint := endpoints[c.Region]
 	if endpoint == "" {
@@ -39,7 +64,7 @@ func (c *Client) getEndpoint() (string, error) {
 	return endpoint, nil
 }
 
-func (c *Client) PrepareRequest(method string, uriPath string, contentType string, r Request) (res []byte, err error) {
+func (c *Client) PrepareRequest(method string, uriPath string, contentType string, options ...RequestOption) (res []byte, err error) {
 	if c.AutoAccessToken == true {
 		tokenRes, err := c.GetNewAccessToken()
 		if err != nil {
@@ -52,6 +77,7 @@ func (c *Client) PrepareRequest(method string, uriPath string, contentType strin
 		return res, err
 	}
 	var queries []string
+	r := NewRequest(options...)
 	if r.Queries != nil {
 		for k, v := range r.Queries {
 			query := fmt.Sprintf("%s=%s", k, v)
