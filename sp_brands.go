@@ -44,3 +44,19 @@ func (c *Client) DeleteSbCampaignById(campaignId int) *Response {
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) GetSbAdGroups(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: "/sb/adGroups",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSbAdGroupById(adGroupId int) *Response {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/sb/adGroups/%s", strconv.Itoa(adGroupId)),
+	}
+	return c.DoRequest(preReq)
+}
