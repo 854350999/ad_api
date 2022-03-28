@@ -16,10 +16,6 @@ import (
 //)
 //
 
-func Test() {
-
-}
-
 //func (c *Credential) GetGrantUrl() (string, error) {
 //	hostUrl := c.getHostUrl()
 //	fmt.Println("aaa")
