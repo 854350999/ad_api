@@ -148,3 +148,51 @@ func (c *Client) GetSpTargetsBidRecommendations(r ...RequestOption) (res []byte,
 	}
 	return c.DoRequest(preReq, r...)
 }
+
+func (c *Client) CreateSpKeywords(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/v2/sp/keywords",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) UpdateSpKeywords(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "PUT",
+		UriPath: "/v2/sp/keywords",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpKeywords(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "PUT",
+		UriPath: "/v2/sp/keywords",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpKeywordById(keywordId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/v2/sp/keywords/%s", strconv.Itoa(keywordId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) GetSpKeywordsExtended(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "PUT",
+		UriPath: "/v2/sp/keywords/extended",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpKeywordExtendedById(keywordId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/v2/sp/keywords/extended/%s", strconv.Itoa(keywordId)),
+	}
+	return c.DoRequest(preReq)
+}
