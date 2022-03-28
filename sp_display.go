@@ -148,3 +148,11 @@ func (c *Client) GetSdTargetExtendedById(targetId int) *Response {
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) GetSdTargetsBidRecommendations(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/sd/targets/bid/recommendations",
+	}
+	return c.DoRequest(preReq, r...)
+}
