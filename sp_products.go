@@ -52,3 +52,11 @@ func (c *Client) GetSpCampaignExtendedById(campaignId int) (res []byte, err erro
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) DeleteSpCampaignById(campaignId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "DELETE",
+		UriPath: fmt.Sprintf("/v2/sp/campaigns/extended/%s", strconv.Itoa(campaignId)),
+	}
+	return c.DoRequest(preReq)
+}
