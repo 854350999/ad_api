@@ -1,11 +1,10 @@
 package ad_api
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -26,9 +25,21 @@ type Client struct {
 	AutoAccessToken bool
 }
 
+func NewClient(cre Credentials) *Client {
+	return &Client{
+		Credentials: cre,
+	}
+}
+
+type PrepareRequest struct {
+	Method      string
+	UriPath     string
+	ContentType string
+}
+
 type Request struct {
 	Queries map[string]string
-	Body    map[string]interface{}
+	Body    io.Reader
 }
 
 type RequestOption func(*Request)
@@ -39,7 +50,7 @@ func WithQueries(queries map[string]string) RequestOption {
 	}
 }
 
-func WithBody(body map[string]interface{}) RequestOption {
+func WithBody(body io.Reader) RequestOption {
 	return func(request *Request) {
 		request.Body = body
 	}
@@ -64,7 +75,7 @@ func (c *Client) getEndpoint() (string, error) {
 	return endpoint, nil
 }
 
-func (c *Client) PrepareRequest(method string, uriPath string, contentType string, options ...RequestOption) (res []byte, err error) {
+func (c *Client) DoRequest(preReq PrepareRequest, options ...RequestOption) (res []byte, err error) {
 	if c.AutoAccessToken == true {
 		tokenRes, err := c.GetNewAccessToken()
 		if err != nil {
@@ -88,19 +99,12 @@ func (c *Client) PrepareRequest(method string, uriPath string, contentType strin
 	if queryPath != "" {
 		queryPath = "?" + queryPath
 	}
-	url := endpoint + uriPath + queryPath
-	bodyByte, err := json.Marshal(&r.Body)
-	if err != nil {
-		return res, err
+	url := endpoint + preReq.UriPath + queryPath
+	req, err := http.NewRequest(preReq.Method, url, r.Body)
+	if preReq.ContentType == "" {
+		preReq.ContentType = "application/json"
 	}
-	if r.Body == nil {
-		bodyByte = nil
-	}
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(bodyByte))
-	if contentType == "" {
-		contentType = "application/json"
-	}
-	req.Header.Set("Content-Type", contentType)
+	req.Header.Set("Content-Type", preReq.ContentType)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.AccessToken))
 	req.Header.Set("Amazon-Advertising-API-ClientId", c.ClientId)
 	req.Header.Set("Amazon-Advertising-API-Scope", strconv.FormatInt(c.ProfileId, 10))
