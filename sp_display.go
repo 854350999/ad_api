@@ -100,3 +100,51 @@ func (c *Client) GetSdAdGroupExtendedById(adGroupId int) *Response {
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) CreateSdTargets(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/sd/targets",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) UpdateSdTargets(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "PUT",
+		UriPath: "/sd/targets",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSdTargets(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: "/sd/targets",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSdTargetById(targetId int) *Response {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/sd/targets/%s", strconv.Itoa(targetId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) GetSdTargetsExtended(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: "/sd/targets/extended",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSdTargetExtendedById(targetId int) *Response {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/sd/targets/extended/%s", strconv.Itoa(targetId)),
+	}
+	return c.DoRequest(preReq)
+}
