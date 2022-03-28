@@ -60,3 +60,59 @@ func (c *Client) DeleteSpCampaignById(campaignId int) (res []byte, err error) {
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) CreateSpAdGroups(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/v2/sp/adGroups",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) UpdateSpAdGroups(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "PUT",
+		UriPath: "/v2/sp/adGroups",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpAdGroups(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: "/v2/sp/adGroups",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpAdGroupById(adGroupId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/v2/sp/adGroups/%s", strconv.Itoa(adGroupId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) GetSpAdGroupsExtended(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: "/v2/sp/adGroups/extended",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpAdGroupExtendedById(adGroupId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/v2/sp/adGroups/extended/%s", strconv.Itoa(adGroupId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) DeleteSpAdGroupById(adGroupId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "DELETE",
+		UriPath: fmt.Sprintf("/v2/sp/adGroups/%s", strconv.Itoa(adGroupId)),
+	}
+	return c.DoRequest(preReq)
+}
