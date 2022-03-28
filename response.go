@@ -1,8 +1,9 @@
 package ad_api
 
 type Response struct {
-	Payload interface{}
-	Error   error
+	StatusCode int
+	Payload    []byte
+	Error      error
 }
 
 type TokenResponse struct {

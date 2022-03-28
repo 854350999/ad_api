@@ -75,17 +75,19 @@ func (c *Client) getEndpoint() (string, error) {
 	return endpoint, nil
 }
 
-func (c *Client) DoRequest(preReq PrepareRequest, options ...RequestOption) (res []byte, err error) {
+func (c *Client) DoRequest(preReq PrepareRequest, options ...RequestOption) (res *Response) {
 	if c.AutoAccessToken == true {
 		tokenRes, err := c.GetNewAccessToken()
 		if err != nil {
-			return res, err
+			res.Error = err
+			return res
 		}
 		c.AccessToken = tokenRes.AccessToken
 	}
 	endpoint, err := c.getEndpoint()
 	if err != nil {
-		return res, err
+		res.Error = err
+		return res
 	}
 	var queries []string
 	r := NewRequest(options...)
@@ -111,11 +113,15 @@ func (c *Client) DoRequest(preReq PrepareRequest, options ...RequestOption) (res
 	client := http.Client{}
 	resp, err := client.Do(req.WithContext(context.TODO()))
 	if err != nil {
-		return res, err
+		res.Error = err
+		return res
 	}
 	respByte, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return res, err
+		res.Error = err
+		return res
 	}
-	return respByte, nil
+	res.StatusCode = resp.StatusCode
+	res.Payload = respByte
+	return res
 }
