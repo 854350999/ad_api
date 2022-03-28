@@ -140,3 +140,11 @@ func (c *Client) DeleteSbTargetById(targetId int) *Response {
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) GetSbBidRecommendations(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/sb/recommendations/bids",
+	}
+	return c.DoRequest(preReq, r...)
+}
