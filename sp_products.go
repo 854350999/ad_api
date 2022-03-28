@@ -196,3 +196,51 @@ func (c *Client) GetSpKeywordExtendedById(keywordId int) (res []byte, err error)
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) CreateSpTargets(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/v2/sp/targets",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) UpdateSpTargets(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "PUT",
+		UriPath: "/v2/sp/targets",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpTargets(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: "/v2/sp/targets",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpTargetsById(targetId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/v2/sp/targets/%s", strconv.Itoa(targetId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) GetSpTargetsExtended(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: "/v2/sp/targets/extended",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpTargetsExtendedById(targetId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/v2/sp/targets/extended/%s", strconv.Itoa(targetId)),
+	}
+	return c.DoRequest(preReq)
+}
