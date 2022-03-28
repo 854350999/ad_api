@@ -60,3 +60,43 @@ func (c *Client) GetSbAdGroupById(adGroupId int) *Response {
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) CreateSbKeywords(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/sb/keywords",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) UpdateSbKeywords(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "PUT",
+		UriPath: "/sb/keywords",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSbKeywords(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: "/sb/keywords",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSbKeywordById(keywordId int) *Response {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/sb/keywords/%s", strconv.Itoa(keywordId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) DeleteSbKeywordById(keywordId int) *Response {
+	preReq := PrepareRequest{
+		Method:  "DELETE",
+		UriPath: fmt.Sprintf("/sb/keywords/%s", strconv.Itoa(keywordId)),
+	}
+	return c.DoRequest(preReq)
+}
