@@ -116,3 +116,35 @@ func (c *Client) DeleteSpAdGroupById(adGroupId int) (res []byte, err error) {
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) GetSpBidRecommendationByAdGroupId(adGroupId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/v2/sp/adGroups/%s/bidRecommendations", strconv.Itoa(adGroupId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) GetSpBidRecommendationByKeywordId(keywordId int) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "GET",
+		UriPath: fmt.Sprintf("/v2/sp/keywords/%s/bidRecommendations", strconv.Itoa(keywordId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) GetSpKeywordsBidRecommendations(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/v2/sp/keywords/bidRecommendations",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSpTargetsBidRecommendations(r ...RequestOption) (res []byte, err error) {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/v2/sp/targets/bidRecommendations",
+	}
+	return c.DoRequest(preReq, r...)
+}
