@@ -100,3 +100,43 @@ func (c *Client) DeleteSbKeywordById(keywordId int) *Response {
 	}
 	return c.DoRequest(preReq)
 }
+
+func (c *Client) CreateSbTargets(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/sb/targets",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) UpdateSbTargets(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "PUT",
+		UriPath: "/sb/targets",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSbTargets(r ...RequestOption) *Response {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: "/sb/targets/list",
+	}
+	return c.DoRequest(preReq, r...)
+}
+
+func (c *Client) GetSbTargetById(targetId int) *Response {
+	preReq := PrepareRequest{
+		Method:  "POST",
+		UriPath: fmt.Sprintf("/sb/targets/%s", strconv.Itoa(targetId)),
+	}
+	return c.DoRequest(preReq)
+}
+
+func (c *Client) DeleteSbTargetById(targetId int) *Response {
+	preReq := PrepareRequest{
+		Method:  "DELETE",
+		UriPath: fmt.Sprintf("/sb/targets/%s", strconv.Itoa(targetId)),
+	}
+	return c.DoRequest(preReq)
+}
