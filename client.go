@@ -75,7 +75,8 @@ func (c *Client) getEndpoint() (string, error) {
 	return endpoint, nil
 }
 
-func (c *Client) DoRequest(preReq PrepareRequest, options ...RequestOption) (res *Response) {
+func (c *Client) DoRequest(preReq PrepareRequest, options ...RequestOption) *Response {
+	res := &Response{}
 	if c.AutoAccessToken == true {
 		tokenRes, err := c.GetNewAccessToken()
 		if err != nil {
