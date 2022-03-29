@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"unsafe"
 )
 
 type Credentials struct {
@@ -124,5 +125,13 @@ func (c *Client) DoRequest(preReq PrepareRequest, options ...RequestOption) *Res
 	}
 	res.StatusCode = resp.StatusCode
 	res.Payload = respByte
+	res.CheckResponse()
 	return res
+}
+
+func (res *Response) CheckResponse() {
+	if res.StatusCode >= 400 {
+		err := *(*string)(unsafe.Pointer(&res.Payload))
+		res.Error = errors.New(err)
+	}
 }
